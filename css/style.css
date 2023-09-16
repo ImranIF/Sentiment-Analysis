@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;500;600&family=Eczar:wght@400;500&display=swap');
+
+div.css-6qob1r.eczjsme3{
+    background-color: #001C30;
+}
+
+div.css-1j6rxz7{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*text-align: center;*/
+}
+
+div.css-1j6rxz7.e1eexb540 p{
+    font-family: 'Dancing Script', cursive;
+    font-size: x-large;
+ }
+
+section.main.css-uf99v8.ea3mdgi5{
+   background-color: #537895;
+    background-image: linear-gradient(315deg, #537895 0%, #09203f 54%);
+}
+
+#MainMenu, footer {
+    visibility: hidden;
+}
+
+button.css-19rxjzo.ef3psqc6{
+    background-color: #6F1E51;
+    color: blanchedalmond;
+    border: none;
+    width: 100%;
+    padding: 1.3rem;
+    display: block;
+    transition: 0.4s;
+}
+
+button.css-19rxjzo.ef3psqc6 p{
+    font-family: 'Eczar', serif;
+    font-size: larger;
+}
+
+button.css-19rxjzo.ef3psqc6:hover{
+    letter-spacing: 0.35rem;
+    background-color:#580f3d;
+    cursor: pointer;
+    padding: 1.5rem;
+}
+
+button.css-19rxjzo.ef3psqc11:active{
+    outline: none;
+    background-color: #3a0225;
+}
+
+/*header.css-18ni7ap.ezrtsby2{*/
+/*    display:flex;*/
+/*    justify-content: space-between;*/
+/*    align-items: center;*/
+/*    flex-wrap: wrap;*/
+/*    min-height: 100%;*/
+/*    padding: 5px 3px;*/
+/*    transition: 0.3s ease-in-out;*/
+/*}*/
+
+span.css-10trblm.e1nzilvr1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+}
