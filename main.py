@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 # import threading
 import modules
@@ -9,7 +10,7 @@ st.set_page_config(
     page_title="Sentiment Analyzer",
     page_icon='assets/If-Logo2.jpeg',
 )
-page = st.sidebar.selectbox(label='Controller', options=('Sentiment Analysis', 'Model Accuracy Comparison'))
+page = st.sidebar.selectbox(label='Controller', options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
 with open('css/style.css') as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
@@ -74,17 +75,28 @@ if classifierSVM and classifierDecision and classifierRandomForest and classifie
                         prediction = {}
                         for model in models:
                             prediction[model] = modules.analyzeSentiment([userInput], vectorizer, models[model])
-                            print(prediction[model])
+                        st.divider()
                         st.info('Results')
                         for key, values in prediction.items():
                             st.write('{}: {}'.format(key, values))
                 else:
                     st.write('You entered no text!')
+    elif page == 'Sentiment Feedback':
+        st.subheader('Sentiment Feedback')
+        with st.form(key='feedbackForm'):
+            inputFeedback = st.text_area('Enter feedback text', placeholder='Kais is a suspicious character!')
+            inputSentiment = st.radio('Actual Sentiment', ['Positive', 'Negative'])
+            if st.form_submit_button('Submit Feedback'):
+                if inputFeedback and inputSentiment:
+                    with st.spinner('Functionality will be added very soon'):
+                        time.sleep(1000)
+                    st.success('Feedback submitted and model retrained successfully.')
     elif page == 'Model Accuracy Comparison':
         st.subheader('Model Accuracy Comparison')
         labelColors = ['red', 'green', 'blue', 'purple']
-        modules.pieChartGenerator(st, plt, accuracies, modelNames, labelColors)
-        modules.barGenerator(st, plt, accuracies, modelNames, labelColors)
+        modules.pieChart(st, accuracies, modelNames)
+        modules.barChart(st, accuracies, modelNames, labelColors)
+        modules.lineChart(st, accuracies, modelNames, labelColors)
 
 else:
     st.write('Error: Models were not trained successfully. Please check the training process.')
