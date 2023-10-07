@@ -4,6 +4,18 @@ div.css-6qob1r.eczjsme3{
     background-color: #001C30;
 }
 
+
+div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c6:hover, div.row-widget.stSelectbox:hover{
+    cursor: pointer;
+
+}
+label.css-1qg05tj.e1y5xkzn3{
+    letter-spacing: 0.25rem;
+    /*padding-bottom: 1rem;*/
+    /*padding-left: 3rem;*/
+    padding: 0% 2% 2% 2%;
+}
+
 div.css-1j6rxz7{
     display: flex;
     justify-content: center;
