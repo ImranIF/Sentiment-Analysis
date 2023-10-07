@@ -10,33 +10,40 @@ st.set_page_config(
     page_title="Sentiment Analyzer",
     page_icon='assets/If-Logo2.jpeg',
 )
-page = st.sidebar.selectbox(label='Controller', options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
+page = st.sidebar.selectbox(label='Controller',
+                            options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
 with open('css/style.css') as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
 
 def saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest,
-                     testXVectors, testY, trainXVectors, vectorizer):
+                     testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer):
     st.session_state['classifierSVM'] = classifierSVM
     st.session_state['classifierDecision'] = classifierDecision
     st.session_state['classifierGaussianNaiveBayes'] = classifierGaussianNaiveBayes
     st.session_state['classifierRandomForest'] = classifierRandomForest
     st.session_state['testXVectors'] = testXVectors
+    st.session_state['trainX'] = trainX
+    st.session_state['trainY'] = trainY
+    st.session_state['testX'] = testX
     st.session_state['testY'] = testY
     st.session_state['trainXVectors'] = trainXVectors
     st.session_state['vectorizer'] = vectorizer
 
 
 def loadSessionState():
+    print("Loaded vectorizer shape:", st.session_state['vectorizer'].get_feature_names_out().shape)
+
     return st.session_state['classifierSVM'], st.session_state['classifierDecision'], st.session_state[
         'classifierGaussianNaiveBayes'], st.session_state['classifierRandomForest'], st.session_state['testXVectors'], \
-        st.session_state['testY'], st.session_state['trainXVectors'], st.session_state['vectorizer']
+        st.session_state['trainX'], st.session_state['trainY'], st.session_state['testX'], st.session_state['testY'], st.session_state['trainXVectors'], st.session_state['vectorizer']
 
 
 file = 'dataset/IMDB-Dataset.json'
 reviews = modules.loadReviews(file)
 trainingStatus = st.empty()
+
 if 'classifierSVM' not in st.session_state or 'classifierDecision' not in st.session_state or 'classifierGaussianNaiveBayes' not in st.session_state or 'classifierRandomForest' not in st.session_state:
     trainX, trainY, testX, testY = modules.prepareData(reviews)
     trainXVectors, testXVectors, vectorizer = modules.vectorizeData(trainX, testX)
@@ -46,9 +53,10 @@ if 'classifierSVM' not in st.session_state or 'classifierDecision' not in st.ses
         trainXVectors, trainY)
     trainingStatus.write('Models trained successfully!')
     saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest,
-                     testXVectors, testY, trainXVectors, vectorizer)
+                     testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer)
 
-classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest, testXVectors, testY, trainXVectors, vectorizer = loadSessionState()
+classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest, testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer = loadSessionState()
+print("Loaded vectorizer shape:", vectorizer.get_feature_names_out().shape)
 
 if classifierSVM and classifierDecision and classifierRandomForest and classifierGaussianNaiveBayes:
     modelNames = ['SVM', 'Decision Tree', 'Naive Bayes', 'Random Forest']
@@ -88,9 +96,22 @@ if classifierSVM and classifierDecision and classifierRandomForest and classifie
             inputSentiment = st.radio('Actual Sentiment', ['Positive', 'Negative'])
             if st.form_submit_button('Submit Feedback'):
                 if inputFeedback and inputSentiment:
-                    with st.spinner('Functionality will be added very soon'):
-                        time.sleep(1000)
+                    # with st.spinner('Functionality will be added very soon'):
+                    #     time.sleep(1000)
+                    newTrainX = trainX + [inputFeedback]
+                    newTrainY = trainY + [inputSentiment]
+                    newTestX = testX + [inputFeedback]
+                    newTestY = testY + [inputSentiment]
+
+                    newTrainXVectors, newTestXVectors, newVectorizer = modules.vectorizeData(newTrainX, newTestX)
+                    classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest = modules.trainModels(newTrainXVectors, newTrainY)
+
+                    saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes,
+                                     classifierRandomForest,
+                                     newTestXVectors, newTrainX, newTrainY, newTestX, newTestY, newTrainXVectors, newVectorizer)
                     st.success('Feedback submitted and model retrained successfully.')
+                else:
+                    st.error('Submission has been unsuccessful! Please resubmit with appropriate inputs')
     elif page == 'Model Accuracy Comparison':
         st.subheader('Model Accuracy Comparison')
         labelColors = ['red', 'green', 'blue', 'purple']
