@@ -18,20 +18,105 @@ st.sidebar.image('assets/IF-Logo3.png', caption='Natural Language Processing')
 page = st.sidebar.selectbox(label='Controller',
                             options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
-#STREAMLIT_STATIC_PATH = Path(st.__path__[0]) / 'static'
-#CSS_PATH = (STREAMLIT_STATIC_PATH / "css")
-#if not CSS_PATH.is_dir():
-#    CSS_PATH.mkdir()
+css = """
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;500;600&family=Eczar:wght@400;500&display=swap');
 
-#css_file = CSS_PATH / "style.css"
-#if not css_file.exists():
-#    shutil.copy("css/style.css", css_file)
+div.css-6qob1r.eczjsme3{
+    background-color: #001C30;
+}
+
+
+div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c6:hover, div.row-widget.stSelectbox:hover{
+    cursor: pointer;
+
+}
+label.css-1qg05tj.e1y5xkzn3{
+    letter-spacing: 0.25rem;
+    /*padding-bottom: 1rem;*/
+    /*padding-left: 3rem;*/
+    padding: 0% 2% 2% 2%;
+}
+
+div.css-1j6rxz7{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*text-align: center;*/
+}
+
+div.css-1j6rxz7.e1eexb540 p{
+    font-family: 'Dancing Script', cursive;
+    font-size: x-large;
+ }
+
+section.main.css-uf99v8.ea3mdgi5{
+   background-color: #537895;
+    background-image: linear-gradient(315deg, #537895 0%, #09203f 54%);
+}
+
+#MainMenu, footer {
+    visibility: hidden;
+}
+
+button.css-19rxjzo.ef3psqc6{
+    background-color: #6F1E51;
+    color: blanchedalmond;
+    border: none;
+    width: 100%;
+    padding: 1.3rem;
+    display: block;
+    transition: 0.4s;
+}
+
+button.css-19rxjzo.ef3psqc6 p{
+    font-family: 'Eczar', serif;
+    font-size: larger;
+}
+
+button.css-19rxjzo.ef3psqc6:hover{
+    letter-spacing: 0.35rem;
+    background-color:#580f3d;
+    cursor: pointer;
+    padding: 1.5rem;
+}
+
+button.css-19rxjzo.ef3psqc11:active{
+    outline: none;
+    background-color: #3a0225;
+}
+
+span.css-10trblm.e1nzilvr1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Amiri', serif;
+    font-size: xx-large;
+}
+"""
+
 st.markdown(
     f"""
-   <link rel="stylesheet" href="static/style.css" type="text/css"/>
-    """,
-    unsafe_allow_html=True
+    <style>
+    {css}
+    </style>
+    """, unsafe_allow_html=True
 )
+
+# STREAMLIT_STATIC_PATH = Path(st.__path__[0]) / 'static'
+# CSS_PATH = (STREAMLIT_STATIC_PATH / "css")
+# if not CSS_PATH.is_dir():
+#     CSS_PATH.mkdir()
+#
+# css_file = CSS_PATH / "style.css"
+# if not css_file.exists():
+#     shutil.copy("css/style.css", css_file)
+# st.markdown(
+#     f"""
+#    <link rel="stylesheet" href="css/style.css" type="text/css"/>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 # with open('static/style.css') as f:
 #     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
