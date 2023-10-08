@@ -21,14 +21,17 @@ page = st.sidebar.selectbox(label='Controller',
 css = """
 @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;500;600&family=Eczar:wght@400;500&display=swap');
 
+header.css-18ni7ap.ezrtsby2{
+    color: rgb(250, 250, 250);
+    background-color: rgb(14, 17, 23);
+}
+
 div.css-6qob1r.eczjsme3{
     background-color: #001C30;
 }
 
-
 div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c6:hover, div.row-widget.stSelectbox:hover{
     cursor: pointer;
-
 }
 label.css-1qg05tj.e1y5xkzn3{
     letter-spacing: 0.25rem;
@@ -58,7 +61,7 @@ section.main.css-uf99v8.ea3mdgi5{
     visibility: hidden;
 }
 
-button.css-19rxjzo.ef3psqc6{
+button.css-7ym5gk.ef3psqc6{
     background-color: #6F1E51;
     color: blanchedalmond;
     border: none;
@@ -68,12 +71,12 @@ button.css-19rxjzo.ef3psqc6{
     transition: 0.4s;
 }
 
-button.css-19rxjzo.ef3psqc6 p{
+button.css-7ym5gk.ef3psqc6 p{
     font-family: 'Eczar', serif;
     font-size: larger;
 }
 
-button.css-19rxjzo.ef3psqc6:hover{
+button.css-7ym5gk.ef3psqc6:hover{
     letter-spacing: 0.35rem;
     background-color:#580f3d;
     cursor: pointer;
@@ -92,6 +95,7 @@ span.css-10trblm.e1nzilvr1{
     justify-content: center;
     font-family: 'Amiri', serif;
     font-size: xx-large;
+    color: rgb(250, 250, 250);
 }
 """
 
