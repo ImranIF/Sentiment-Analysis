@@ -21,6 +21,11 @@ page = st.sidebar.selectbox(label='Controller',
 css = """
 @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;500;600&family=Eczar:wght@400;500&display=swap');
 
+body{
+    color: rgb(250, 250, 250);
+    background-color: rgb(14, 17, 23);
+}
+
 header.css-18ni7ap.ezrtsby2{
     color: rgb(250, 250, 250);
     background-color: rgb(14, 17, 23);
@@ -30,14 +35,21 @@ div.css-6qob1r.eczjsme3{
     background-color: #001C30;
 }
 
+div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c6{
+    background: rgb(14, 17, 23);
+    color: rgb(250, 250, 250);
+}
+
 div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c6:hover, div.row-widget.stSelectbox:hover{
     cursor: pointer;
 }
-label.css-1qg05tj.e1y5xkzn3{
+
+labe.css-ue6h4q.e1y5xkzn3{
     letter-spacing: 0.25rem;
     /*padding-bottom: 1rem;*/
     /*padding-left: 3rem;*/
     padding: 0% 2% 2% 2%;
+    color: rgb(250, 250, 250);
 }
 
 div.css-1j6rxz7{
