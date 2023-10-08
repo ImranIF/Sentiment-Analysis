@@ -19,7 +19,7 @@ page = st.sidebar.selectbox(label='Controller',
                             options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
 STREAMLIT_STATIC_PATH = Path(st.__path__[0]) / 'static'
-CSS_PATH = (STREAMLIT_STATIC_PATH / "static")
+CSS_PATH = (STREAMLIT_STATIC_PATH / "css")
 if not CSS_PATH.is_dir():
     CSS_PATH.mkdir()
 
