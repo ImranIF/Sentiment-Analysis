@@ -40,11 +40,16 @@ div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c
     color: rgb(250, 250, 250);
 }
 
+.css-fg4pbf{
+    background: rgb(14, 17, 23);
+    color: rgb(250, 250, 250);
+}
+
 div.st-be.st-bf.st-by.st-bz.st-c0.st-b3.st-c1.st-c2.st-bg.st-c3.st-c4.st-c5.st-c6:hover, div.row-widget.stSelectbox:hover{
     cursor: pointer;
 }
 
-labe.css-ue6h4q.e1y5xkzn3{
+label.css-ue6h4q.e1y5xkzn3{
     letter-spacing: 0.25rem;
     /*padding-bottom: 1rem;*/
     /*padding-left: 3rem;*/
@@ -57,6 +62,14 @@ div.css-1j6rxz7{
     justify-content: center;
     align-items: center;
     /*text-align: center;*/
+}
+
+div.css-r421ms.e10yg2by1{
+    border: 1px solid rgba(250, 250, 250, 0.2);
+}
+
+div.css-1b0udgb{
+    color: rgba(250, 250, 250, 0.6);
 }
 
 div.css-1j6rxz7.e1eexb540 p{
