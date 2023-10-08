@@ -2,6 +2,7 @@ import pandas as pd
 import streamlit as st
 # import threading
 import modules
+import pickle
 import time
 import matplotlib.pyplot as plt
 from textblob import TextBlob
@@ -10,12 +11,38 @@ st.set_page_config(
     page_title="Sentiment Analyzer",
     page_icon='assets/If-Logo2.jpeg',
 )
+st.sidebar.image('assets/IF-Logo3.png', caption='Natural Language Processing')
 page = st.sidebar.selectbox(label='Controller',
                             options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
 with open('css/style.css') as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
+
+def saveModel(classifierSVM, classifierDecision,  classifierGaussianNaiveBayes, classifierRandomForest, vectorizer):
+    with open('models/svm_model.pkl', 'wb') as file:
+        pickle.dump(classifierSVM, file)
+    with open('models/decision_tree_model.pkl', 'wb') as file:
+        pickle.dump(classifierDecision, file)
+    with open('models/gaussian_naive_bayes_model.pkl', 'wb') as file:
+        pickle.dump(classifierGaussianNaiveBayes, file)
+    with open('models/random_forest_model.pkl', 'wb') as file:
+        pickle.dump(classifierRandomForest, file)
+    with open('models/vectorizer.pkl', 'wb') as file:
+        pickle.dump(vectorizer, file)
+
+def loadModel():
+    with open('models/svm_model.pkl', 'rb') as file:
+        classifierSVM = pickle.load(file)
+    with open('models/decision_tree_model.pkl', 'rb') as file:
+        classifierDecision = pickle.load(file)
+    with open('models/gaussian_naive_bayes_model.pkl', 'rb') as file:
+        classifierGaussianNaiveBayes = pickle.load(file)
+    with open('models/random_forest_model.pkl', 'rb') as file:
+        classifierRandomForest = pickle.load(file)
+    with open('models/vectorizer.pkl', 'rb') as file:
+        vectorizer = pickle.load(file)
+    return classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest
 
 def saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest,
                      testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer):
@@ -33,7 +60,7 @@ def saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveB
 
 
 def loadSessionState():
-    print("Loaded vectorizer shape:", st.session_state['vectorizer'].get_feature_names_out().shape)
+    # print("Loaded vectorizer shape:", st.session_state['vectorizer'].get_feature_names_out().shape)
 
     return st.session_state['classifierSVM'], st.session_state['classifierDecision'], st.session_state[
         'classifierGaussianNaiveBayes'], st.session_state['classifierRandomForest'], st.session_state['testXVectors'], \
@@ -45,18 +72,20 @@ reviews = modules.loadReviews(file)
 trainingStatus = st.empty()
 
 if 'classifierSVM' not in st.session_state or 'classifierDecision' not in st.session_state or 'classifierGaussianNaiveBayes' not in st.session_state or 'classifierRandomForest' not in st.session_state:
-    trainX, trainY, testX, testY = modules.prepareData(reviews)
-    trainXVectors, testXVectors, vectorizer = modules.vectorizeData(trainX, testX)
+    with st.spinner('Training models...'):
 
-    trainingStatus.write('Training models. Please wait a moment...')
-    classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest = modules.trainModels(
-        trainXVectors, trainY)
-    trainingStatus.write('Models trained successfully!')
-    saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest,
-                     testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer)
+        trainX, trainY, testX, testY = modules.prepareData(reviews)
+        trainXVectors, testXVectors, vectorizer = modules.vectorizeData(trainX, testX)
+
+        classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest = loadModel()
+        # classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest = modules.trainModels(
+        #     trainXVectors, trainY)
+        saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest,
+                         testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer)
+    # saveModel(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest, vectorizer)
+    trainingStatus.write("Models trained successfully! Please wait a moment")
 
 classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest, testXVectors, trainX, trainY, testX, testY, trainXVectors, vectorizer = loadSessionState()
-print("Loaded vectorizer shape:", vectorizer.get_feature_names_out().shape)
 
 if classifierSVM and classifierDecision and classifierRandomForest and classifierGaussianNaiveBayes:
     modelNames = ['SVM', 'Decision Tree', 'Naive Bayes', 'Random Forest']
@@ -96,19 +125,20 @@ if classifierSVM and classifierDecision and classifierRandomForest and classifie
             inputSentiment = st.radio('Actual Sentiment', ['Positive', 'Negative'])
             if st.form_submit_button('Submit Feedback'):
                 if inputFeedback and inputSentiment:
-                    # with st.spinner('Functionality will be added very soon'):
-                    #     time.sleep(1000)
-                    newTrainX = trainX + [inputFeedback]
-                    newTrainY = trainY + [inputSentiment]
-                    newTestX = testX + [inputFeedback]
-                    newTestY = testY + [inputSentiment]
+                    with st.spinner('Analysing new feedback, Please wait till model is trained...'):
+                        newTrainX = trainX + [inputFeedback]
+                        newTrainY = trainY + [inputSentiment]
+                        newTestX = testX + [inputFeedback]
+                        newTestY = testY + [inputSentiment]
 
-                    newTrainXVectors, newTestXVectors, newVectorizer = modules.vectorizeData(newTrainX, newTestX)
-                    classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest = modules.trainModels(newTrainXVectors, newTrainY)
+                        newTrainXVectors, newTestXVectors, newVectorizer = modules.vectorizeData(newTrainX, newTestX)
+                        classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest = modules.trainModels(newTrainXVectors, newTrainY)
+                        saveModel(classifierSVM, classifierDecision, classifierGaussianNaiveBayes, classifierRandomForest,
+                                  newVectorizer)
 
-                    saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes,
-                                     classifierRandomForest,
-                                     newTestXVectors, newTrainX, newTrainY, newTestX, newTestY, newTrainXVectors, newVectorizer)
+                        saveSessionState(classifierSVM, classifierDecision, classifierGaussianNaiveBayes,
+                                         classifierRandomForest,
+                                         newTestXVectors, newTrainX, newTrainY, newTestX, newTestY, newTrainXVectors, newVectorizer)
                     st.success('Feedback submitted and model retrained successfully.')
                 else:
                     st.error('Submission has been unsuccessful! Please resubmit with appropriate inputs')
