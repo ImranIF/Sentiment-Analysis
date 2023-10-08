@@ -19,16 +19,16 @@ page = st.sidebar.selectbox(label='Controller',
                             options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
 STREAMLIT_STATIC_PATH = Path(st.__path__[0]) / 'static'
-CSS_PATH = (STREAMLIT_STATIC_PATH / "css")
+CSS_PATH = (STREAMLIT_STATIC_PATH / "static")
 if not CSS_PATH.is_dir():
     CSS_PATH.mkdir()
 
 css_file = CSS_PATH / "style.css"
 if not css_file.exists():
-    shutil.copy("css/style.css", css_file)
+    shutil.copy("static/style.css", css_file)
 st.markdown(
     f"""
-   <link rel="stylesheet" href="css/style.css" type="text/css"/>
+   <link rel="stylesheet" href="{st.static('style.css')}" type="text/css"/>
     """,
     unsafe_allow_html=True
 )
