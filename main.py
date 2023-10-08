@@ -15,9 +15,8 @@ st.sidebar.image('assets/IF-Logo3.png', caption='Natural Language Processing')
 page = st.sidebar.selectbox(label='Controller',
                             options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
-with open('css/style.css') as f:
+with open('static/style.css') as f:
     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
-
 
 def saveModel(classifierSVM, classifierDecision,  classifierGaussianNaiveBayes, classifierRandomForest, vectorizer):
     with open('models/svm_model.pkl', 'wb') as file:
