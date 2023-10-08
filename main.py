@@ -19,19 +19,22 @@ page = st.sidebar.selectbox(label='Controller',
                             options=('Sentiment Analysis', 'Sentiment Feedback', 'Model Accuracy Comparison'))
 
 STREAMLIT_STATIC_PATH = Path(st.__path__[0]) / 'static'
-CSS_PATH = (STREAMLIT_STATIC_PATH / "static")
+CSS_PATH = (STREAMLIT_STATIC_PATH / "css")
 if not CSS_PATH.is_dir():
     CSS_PATH.mkdir()
 
 css_file = CSS_PATH / "style.css"
 if not css_file.exists():
-    shutil.copy("static/style.css", css_file)
+    shutil.copy("css/style.css", css_file)
 st.markdown(
     f"""
-   <link rel="stylesheet" href="static/style.css" type="text/css"/>
+   <link rel="stylesheet" href="css/style.css" type="text/css"/>
     """,
     unsafe_allow_html=True
 )
+
+# with open('static/style.css') as f:
+#     st.markdown('<style>{}</style>'.format(f.read()), unsafe_allow_html=True)
 
 def saveModel(classifierSVM, classifierDecision,  classifierGaussianNaiveBayes, classifierRandomForest, vectorizer):
     with open('models/svm_model.pkl', 'wb') as file:
